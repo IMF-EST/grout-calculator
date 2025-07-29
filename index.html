@@ -81,6 +81,17 @@
       font-size: 15px;
       color: #666;
     }
+
+    #disclaimer {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #999;
+    }
+
+    #disclaimer a {
+      color: #999;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -104,10 +115,12 @@
 
     <div id="result"></div>
     <div id="water-note"></div>
-    <p id="disclaimer" style="margin-top: 20px; font-size: 13px; color: #999;">
-      These grout calculations are based on DCP Cementitious Flo-Grout 2.
-</p>
-
+    <p id="disclaimer">
+      These grout calculations are based on 
+      <a href="https://www.dcp-int.com/jo/en/products/flo-grout-2" target="_blank">
+        DCP Cementitious Flo-Grout 2
+      </a>.
+    </p>
   </div>
 
   <script>
@@ -117,7 +130,7 @@
       const width = parseFloat(document.getElementById('width').value);
       const thickness = parseFloat(document.getElementById('thickness').value);
       const bagYield = 13; // liters
-      const waterRatio = 0.12; // per kg of grout
+      const groutDensity = 0.12; // water per kg
 
       // Validate inputs
       if (
@@ -141,12 +154,12 @@
       // Convert to liters
       const totalLiters = totalVolumeCm3 / 1000;
 
-      // Bags needed (exact to 1 decimal)
+      // Bags needed
       const rawBags = totalLiters / bagYield;
       const bagsRounded = rawBags.toFixed(1);
 
       // Water calculation: 0.21 * 25kg * number of bags
-      const totalWater = (0.12 * 25 * bagsRounded).toFixed(1);
+      const totalWater = (0.12 * 25 * rawBags).toFixed(1);
 
       document.getElementById('result').textContent =
         `You need approximately ${bagsRounded} bag(s) of grout.`;
