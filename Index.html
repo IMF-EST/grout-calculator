@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grout Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .calculator {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 120px;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #555;
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin-top: 25px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #222;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <!-- Add your logo image source here -->
+    <img src="your-logo-url-here.png" alt="Logo" class="logo">
+
+    <h2>Grout Calculator</h2>
+    
+    <label for="plates">Number of Plates:</label>
+    <input type="number" id="plates" placeholder="e.g. 10">
+
+    <label for="length">Length of Plate (cm):</label>
+    <input type="number" id="length" placeholder="e.g. 30">
+
+    <label for="width">Width of Plate (cm):</label>
+    <input type="number" id="width" placeholder="e.g. 20">
+
+    <label for="thickness">Grout Thickness (cm):</label>
+    <input type="number" id="thickness" placeholder="e.g. 0.5">
+
+    <button onclick="calculateGrout()">Calculate</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calculateGrout() {
+      const plates = parseFloat(document.getElementById('plates').value);
+      const length = parseFloat(document.getElementById('length').value);
+      const width = parseFloat(document.getElementById('width').value);
+      const thickness = parseFloat(document.getElementById('thickness').value);
+      const bagYield = 13; // liters
+
+      if ([plates, length, width, thickness].some(v => isNaN(v) || v <= 0)) {
+        document.getElementById('result').textContent = "Please enter valid positive numbers.";
+        return;
+      }
+
+      // Apply forward offset
+      const adjustedLength = length + 5;
+      const adjustedWidth = width + 5;
+
+      // Total volume in cubic cm
+      const totalVolumeCm3 = plates * adjustedLength * adjustedWidth * thickness;
+
+      // Convert to liters
+      const totalLiters = totalVolumeCm3 / 1000;
+
+      // Bags needed
+      const rawBags = totalLiters / bagYield;
+
+      // Round to nearest 0.5
+      const bagsRounded = Math.round(rawBags * 2) / 2;
+
+      document.getElementById('result').textContent = 
+        `You need approximately ${bagsRounded} bag(s) of grout.`;
+    }
+  </script>
+</body>
+</html>
