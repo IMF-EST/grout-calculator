@@ -75,6 +75,12 @@
       color: #222;
       font-weight: bold;
     }
+
+    #water-note {
+      margin-top: 10px;
+      font-size: 15px;
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -99,6 +105,7 @@
     <button onclick="calculateGrout()">Calculate</button>
 
     <div id="result"></div>
+    <div id="water-note"></div>
   </div>
 
   <script>
@@ -108,9 +115,11 @@
       const width = parseFloat(document.getElementById('width').value);
       const thickness = parseFloat(document.getElementById('thickness').value);
       const bagYield = 13; // liters
+      const waterPerBag = 3; // liters
 
       if ([plates, length, width, thickness].some(v => isNaN(v) || v <= 0)) {
         document.getElementById('result').textContent = "Please enter valid positive numbers.";
+        document.getElementById('water-note').textContent = "";
         return;
       }
 
@@ -124,14 +133,22 @@
       // Convert to liters
       const totalLiters = totalVolumeCm3 / 1000;
 
-      // Bags needed
+      // Bags needed (before rounding)
       const rawBags = totalLiters / bagYield;
 
-      // Round to nearest 0.5
-      const bagsRounded = Math.round(rawBags * 2) / 2;
+      // Round to nearest 0.5, but minimum 0.5 if rawBags > 0
+      let bagsRounded = Math.round(rawBags * 2) / 2;
+      if (rawBags > 0 && bagsRounded < 0.5) {
+        bagsRounded = 0.5;
+      }
+
+      const totalWater = (bagsRounded * waterPerBag).toFixed(1); // keep 1 decimal
 
       document.getElementById('result').textContent = 
         `You need approximately ${bagsRounded} bag(s) of grout.`;
+
+      document.getElementById('water-note').textContent = 
+        `You will need about ${totalWater} liters of water.`;
     }
   </script>
 </body>
