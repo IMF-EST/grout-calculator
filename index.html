@@ -115,7 +115,7 @@
     const width = parseFloat(document.getElementById('width').value);
     const thickness = parseFloat(document.getElementById('thickness').value);
     const bagYield = 13; // liters
-    const waterPerBag = 3; // liters
+    const waterPerBag = 3.6; // liters (based on cut sheet)
 
     if ([plates, length, width, thickness].some(v => isNaN(v) || v <= 0)) {
       document.getElementById('result').textContent = "Please enter valid positive numbers.";
