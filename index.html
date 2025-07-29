@@ -142,7 +142,7 @@
       const bagsRounded = rawBags.toFixed(1);
 
       // Water calculation: 0.21 * 25kg * number of bags
-      const totalWater = (0.12 * 25 * rawBags).toFixed(1);
+      const totalWater = (0.12 * 25 * bagsRounded).toFixed(1);
 
       document.getElementById('result').textContent =
         `You need approximately ${bagsRounded} bag(s) of grout.`;
